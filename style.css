@@ -1,0 +1,116 @@
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgb(199, 175, 224);
+    transition: background 0.5s ease;
+}
+
+h1 {
+    font-style: italic;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    color: rgb(87, 4, 4);
+}
+
+.calculator {
+    width: 350px;
+    padding: 20px;
+    border-radius: 15px;
+    background: #cdada1;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.toggle-btn {
+    position: absolute;
+    top: -10px;
+    left: -15px;
+    padding: 5px 10px;
+    font-size: 1em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #eecf73;
+}
+
+.display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.display input {
+width: 100%;
+padding: 20px;
+font-size: 2em;
+text-align: right;
+border: none;
+border-radius: 8px;
+outline: none;
+background: transparent;
+box-shadow: inset 2px 2px 10px rgba(0, 0, 0, 0.2);
+transition: all 0.3s ease;
+}
+
+.answer-effect {
+animation: flash 0.3s ease-in-out;
+}
+
+@keyframes flash {
+0% { background: #f4e1aa; box-shadow: 0 0 10px #f4e1aa; }
+50% { background: #ffe9a8; box-shadow: 0 0 20px #fee497; }
+100% { background: #f5e0a0; box-shadow: 0 0 10px #fbdf8b; }
+}
+
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+button {
+    padding: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    background: #f7e6ca;
+    color: rgb(87, 4, 4);
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+button:hover {
+    background: #fdf9f9;
+    transform: scale(1.1);
+}
+
+.operator {
+    background: #eecf73;
+}
+
+.equal {
+    background: #ff8da1;
+}
+
+.clear {
+    background: #ff8da1;
+}
+
+.scientific {
+display: none;
+grid-template-columns: repeat(4, 1fr);
+gap: 12px;
+margin-top: 12px; 
+}

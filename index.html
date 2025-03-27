@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1 id="calculator-heading">Calculator</h1>
+
+    <div class="calculator">
+        <button class="toggle-btn" id="toggle-scientific">Sci</button>
+        <div class="display">
+            <input type="text" id="result" disabled>
+        </div>
+        <div class="buttons">
+            <button class="clear" data-value="C">AC</button>
+            <button class="clear" data-value="←">⌫</button>
+            <button class="operator" data-value="%">%</button>
+            <button class="operator" data-value="/">÷</button>
+            
+            <button data-value="7">7</button>
+            <button data-value="8">8</button>
+            <button data-value="9">9</button>
+            <button class="operator" data-value="*">×</button>
+            
+            <button data-value="4">4</button>
+            <button data-value="5">5</button>
+            <button data-value="6">6</button>
+            <button class="operator" data-value="-">−</button>
+            
+            <button data-value="1">1</button>
+            <button data-value="2">2</button>
+            <button data-value="3">3</button>
+            <button class="operator" data-value="+">+</button>
+            
+            <button data-value="00">00</button>
+            <button data-value="0">0</button>
+            <button data-value=".">.</button>
+            <button class="equal" data-value="=">=</button>
+        </div>
+
+        <div class="buttons scientific">
+            <button class="operator" data-value="(">(</button>
+            <button class="operator" data-value=")">)</button>
+            <button class="operator" data-value="!">x!</button>
+            <button class="operator" data-value="ln">ln</button>
+
+            <button class="operator" data-value="lg">lg</button>
+            <button class="operator" data-value="sin">sin</button>
+            <button class="operator" data-value="cos">cos</button>
+            <button class="operator" data-value="tan">tan</button>
+        </div>
+    </div>
+
+    <script>document.addEventListener("DOMContentLoaded", () => {
+        const result = document.getElementById("result");
+        const buttons = document.querySelectorAll(".buttons button");
+        const scientificButtons = document.querySelector(".scientific");
+        const toggleBtn = document.getElementById("toggle-scientific");
+        let expression = "";
+        let calculated = false;
+    
+       
+        toggleBtn.addEventListener("click", () => {
+            scientificButtons.style.display = scientificButtons.style.display === "grid" ? "none" : "grid";
+        });
+    
+        buttons.forEach(button => {
+            button.addEventListener("click", () => {
+                const value = button.getAttribute("data-value");
+    
+                if (value === "C") {
+                    expression = "";
+                    result.value = expression;
+                    calculated = false;
+                } else if (value === "←") {
+                    expression = expression.slice(0, -1);
+                    result.value = expression;
+                } else if (value === "=") {
+                    try {
+                       
+                        if (/[^0-9]!/.test(expression) || /^!/.test(expression)) {
+                            throw new Error("Invalid factorial usage");
+                        }
+    
+                        let finalExpression = expression
+                            .replace(/sin\(/g, "Math.sin(")
+                            .replace(/cos\(/g, "Math.cos(")
+                            .replace(/tan\(/g, "Math.tan(")
+                            .replace(/ln\(/g, "Math.log(")
+                            .replace(/lg\(/g, "Math.log10(");
+    
+                       
+                        finalExpression = finalExpression.replace(/(\d+)!/g, (_, num) => factorial(parseInt(num)));
+    
+                        expression = eval(finalExpression).toString();
+    
+                      
+                        result.classList.add("answer-effect");
+    
+                        setTimeout(() => {
+                            result.classList.remove("answer-effect");
+                        }, 400);
+    
+                        result.value = expression;
+                        calculated = true;
+                    } catch {
+                        result.value = "Error";
+                        expression = "";
+                    }
+                } else {
+                    if (calculated && isNaN(value)) {
+                        calculated = false;
+                    } else if (calculated) {
+                        expression = "";
+                        calculated = false;
+                    }
+    
+                    if (value === "sin" || value === "cos" || value === "tan" || value === "ln" || value === "lg") {
+                        expression += `${value}(`;
+                    } else if (value === "!") {
+                        expression += "!";
+                    } else {
+                        expression += value;
+                    }
+    
+                    result.value = expression;
+                }
+            });
+        });
+    
+        function factorial(n) {
+            return n === 0 || n === 1 ? 1 : n * factorial(n - 1);
+        }
+    });
+    
+    </script>
+
+</body>
+</html>
